@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container" style="display: flex; align-items: center; justify-content: center; min-height: 75vh;">
+  <div class="glass-panel" style="max-width: 450px; width: 100%; padding: 3rem; border-color: rgba(251, 191, 36, 0.2);">
+    <div style="text-align: center; margin-bottom: 2rem;">
+      <i class="fa-solid fa-lock-open" style="font-size: 3rem; color: var(--color-gold); margin-bottom: 1rem;"></i>
+      <h3 style="font-size: 1.8rem; color: var(--text-white); font-family: var(--font-display);">Admin Command Deck</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Authorized access credentials required</p>
+    </div>
+
+    <% if (error) { %>
+      <div class="alert alert-danger">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span><%= error %></span>
+      </div>
+    <% } %>
+
+    <form action="/auth/admin-login" method="POST">
+      <div class="form-group">
+        <label for="email" class="form-label">Admin Email</label>
+        <input type="email" id="email" name="email" class="form-control" placeholder="admin@gemstoneadvisor.com" value="<%= locals.email || '' %>" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Security Password</label>
+        <div class="password-container">
+          <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
+          <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 1rem; color: #1f2937;">
+        <i class="fa-solid fa-key"></i> Authenticate & Enter
+      </button>
+    </form>
+    
+    <div style="margin-top: 2rem; text-align: center;">
+      <a href="/" style="font-size: 0.85rem; color: var(--text-muted);"><i class="fa-solid fa-arrow-left"></i> Return to Public Site</a>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

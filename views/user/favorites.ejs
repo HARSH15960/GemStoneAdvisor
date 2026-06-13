@@ -1,0 +1,77 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar">
+      <a href="/user/dashboard" class="sidebar-link"><i class="fa-solid fa-gauge"></i> Overview</a>
+      <a href="/user/recommend" class="sidebar-link"><i class="fa-solid fa-wand-magic-sparkles"></i> Recommendation</a>
+      <a href="/user/history" class="sidebar-link"><i class="fa-solid fa-history"></i> History Log</a>
+      <a href="/user/favorites" class="sidebar-link active"><i class="fa-solid fa-star"></i> Saved Favorites</a>
+      <a href="/user/profile" class="sidebar-link"><i class="fa-solid fa-user-gear"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div>
+        <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Favorited Gemstones</h2>
+        <p style="color: var(--text-muted);">Access details of your saved celestial gemstones quickly</p>
+      </div>
+
+      <% if (favorites && favorites.length > 0) { %>
+        <div class="gem-grid" style="margin-bottom: 0;">
+          <% favorites.forEach(fav => { %>
+            <% const gem = fav.gemstone; %>
+            <% if (gem) { %>
+              <div class="glass-panel gem-card">
+                <div class="gem-img-container" style="height: 180px;">
+                  <img src="<%= gem.image %>" alt="<%= gem.name %>" class="gem-img">
+                  <span class="gem-tag"><%= gem.priceRange %></span>
+                </div>
+                <div class="gem-info">
+                  <h3 class="gem-title" style="font-size: 1.25rem;"><%= gem.name %></h3>
+                  <div class="gem-planet" style="font-size: 0.85rem; margin-bottom: 0.75rem;">
+                    <i class="fa-solid fa-sun" style="color: var(--color-gold);"></i> Ruling Planet: <%= gem.planet %>
+                  </div>
+                  <p class="gem-desc" style="font-size: 0.85rem; margin-bottom: 1.25rem;"><%= gem.description.substring(0, 100) %>...</p>
+                  
+                  <div class="gem-meta" style="font-size: 0.8rem; margin-bottom: 1.25rem;">
+                    <div class="meta-item">
+                      <span>Wear Day</span>
+                      <strong><%= gem.wearDay %></strong>
+                    </div>
+                    <div class="meta-item">
+                      <span>Metal</span>
+                      <strong><%= gem.metal %></strong>
+                    </div>
+                  </div>
+
+                  <div style="display: flex; gap: 0.5rem; width: 100%;">
+                    <form action="/user/favorites/toggle" method="POST" class="favorite-toggle-form" style="width: 100%;">
+                      <input type="hidden" name="gemstoneId" value="<%= gem._id %>">
+                      <button type="submit" class="btn btn-gold btn-small btn-fav-toggle" style="width: 100%;">
+                        ★ Favorited
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="glass-panel" style="text-align: center; padding: 5rem 2rem; border-color: rgba(255, 255, 255, 0.05);">
+          <i class="fa-regular fa-gem floating-gem" style="font-size: 4rem; color: var(--color-primary); margin-bottom: 1.5rem; opacity: 0.6; display: inline-block;"></i>
+          <h4 style="font-size: 1.5rem; color: var(--text-white); margin-bottom: 0.75rem; font-family: var(--font-display);">No favorite gemstones saved yet.</h4>
+          <p style="color: var(--text-muted); max-width: 480px; margin: 0 auto 2.25rem auto; font-size: 0.95rem; line-height: 1.6;">
+            Explore personalized planetary alignments and save recommended crystals to your account for quick access during wearing rituals.
+          </p>
+          <a href="/user/recommend" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Consult Gemstone Advisor</a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

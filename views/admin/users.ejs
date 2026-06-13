@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Admin Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar" style="border-color: rgba(251, 191, 36, 0.15);">
+      <a href="/admin/dashboard" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Summary Stats</a>
+      <a href="/admin/users" class="sidebar-link active"><i class="fa-solid fa-users-gear"></i> User Grid</a>
+      <a href="/admin/gemstones" class="sidebar-link"><i class="fa-solid fa-gem"></i> Gemstone CRUD</a>
+      <a href="/" class="sidebar-link" style="color: var(--color-primary);"><i class="fa-solid fa-arrow-left"></i> User View</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div>
+        <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">User Accounts Management</h2>
+        <p style="color: var(--text-muted);">Manage platform registration accounts, adjust authorization roles, or purge database entries</p>
+      </div>
+
+      <div class="glass-panel" style="padding: 2rem; overflow: hidden;">
+        <!-- Search bar tool for filtering locally -->
+        <div class="search-filter-bar">
+          <input type="text" id="table-search" class="form-control search-input" placeholder="Search user by name, email, or role...">
+        </div>
+
+        <% if (users && users.length > 0) { %>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Email Address</th>
+                  <th>Authorization Role</th>
+                  <th>Joined Date</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% users.forEach(usr => { %>
+                  <tr>
+                    <td style="color: var(--text-white); font-weight: 500;"><%= usr.name %></td>
+                    <td><%= usr.email %></td>
+                    <td>
+                      <% if (usr.role === 'admin') { %>
+                        <span class="badge badge-gold"><i class="fa-solid fa-crown"></i> Admin</span>
+                      <% } else { %>
+                        <span class="badge badge-primary">User</span>
+                      <% } %>
+                    </td>
+                    <td><%= new Date(usr.createdAt).toLocaleDateString() %></td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 0.5rem; justify-content: flex-end;">
+                        <!-- Role Toggle form -->
+                        <form action="/admin/users/<%= usr._id %>/toggle-role" method="POST" style="display: inline;">
+                          <button type="submit" class="btn btn-secondary btn-small" title="Toggle Admin/User Status">
+                            <i class="fa-solid fa-user-shield"></i> Toggle Role
+                          </button>
+                        </form>
+                        
+                        <!-- Delete User form -->
+                        <form action="/admin/users/<%= usr._id %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Purging this user will delete their credentials and all recommendations history! Proceed?');">
+                          <button type="submit" class="btn btn-danger btn-small" title="Permanently Purge User">
+                            <i class="fa-solid fa-trash-can"></i> Purge
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p style="text-align: center; color: var(--text-muted); padding: 2rem 0;">No other users registered on this platform.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

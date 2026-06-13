@@ -1,0 +1,123 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar">
+      <a href="/user/dashboard" class="sidebar-link active"><i class="fa-solid fa-gauge"></i> Overview</a>
+      <a href="/user/recommend" class="sidebar-link"><i class="fa-solid fa-wand-magic-sparkles"></i> Recommendation</a>
+      <a href="/user/history" class="sidebar-link"><i class="fa-solid fa-history"></i> History Log</a>
+      <a href="/user/favorites" class="sidebar-link"><i class="fa-solid fa-star"></i> Saved Favorites</a>
+      <a href="/user/profile" class="sidebar-link"><i class="fa-solid fa-user-gear"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div class="dashboard-header-block">
+        <div>
+          <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Welcome back, <%= user.name %>!</h2>
+          <p style="color: var(--text-muted);">Consult the planets and crystals for guidance</p>
+        </div>
+        <a href="/user/recommend" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> New Alignment</a>
+      </div>
+
+      <!-- Quick Stats counters -->
+      <div class="stats-row" style="margin-bottom: 1.5rem;">
+        <div class="glass-panel stat-card">
+          <div class="stat-num"><%= totalRecommendations %></div>
+          <div class="stat-label">Recommendations Run</div>
+        </div>
+        <div class="glass-panel stat-card">
+          <div class="stat-num"><%= totalFavorites %></div>
+          <div class="stat-label">Saved Favorites</div>
+        </div>
+        <div class="glass-panel stat-card">
+          <div class="stat-num" style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><%= user.role === 'admin' ? 'Admin' : 'Active' %></div>
+          <div class="stat-label">Account Tier</div>
+        </div>
+      </div>
+
+      <!-- Astrological Diagnostics Overview -->
+      <div class="stats-row" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div class="glass-panel stat-card" style="border-color: rgba(147, 51, 234, 0.15);">
+          <div class="stat-num" style="font-size: 1.4rem; line-height: 2.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-white);" title="<%= memberSince %>"><%= memberSince %></div>
+          <div class="stat-label">Member Since</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(147, 51, 234, 0.15);">
+          <div class="stat-num" style="font-size: 1.4rem; line-height: 2.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-white);" title="<%= lastRecommendationDate %>"><%= lastRecommendationDate %></div>
+          <div class="stat-label">Last Alignment Date</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(147, 51, 234, 0.15);">
+          <div class="stat-num" style="font-size: 1.2rem; line-height: 2.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-white);" title="<%= mostAlignedGemstone %>"><%= mostAlignedGemstone %></div>
+          <div class="stat-label">Most Aligned Crystal</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(147, 51, 234, 0.15);">
+          <div class="stat-num" style="font-size: 1.4rem; line-height: 2.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-white);" title="<%= favoriteZodiac %>"><%= favoriteZodiac %></div>
+          <div class="stat-label">Favorite Zodiac</div>
+        </div>
+      </div>
+
+      <!-- Latest Recommendation Summary -->
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <h3 style="font-size: 1.4rem; color: var(--text-white); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-star-of-david text-gold"></i> Latest Cosmic Report
+        </h3>
+        
+        <% if (latestRecommendation) { %>
+          <div class="profile-card" style="margin-bottom: 2rem;">
+            <div class="profile-info-item">
+              <span>Chart Name</span>
+              <strong><%= latestRecommendation.fullName %></strong>
+            </div>
+            <div class="profile-info-item">
+              <span>Zodiac Sign</span>
+              <strong><%= latestRecommendation.zodiacSign %></strong>
+            </div>
+            <div class="profile-info-item">
+              <span>Life Focus</span>
+              <strong><%= latestRecommendation.problemCategory %></strong>
+            </div>
+            <div class="profile-info-item">
+              <span>Date Analyzed</span>
+              <strong><%= new Date(latestRecommendation.createdAt).toLocaleDateString() %></strong>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <h4 style="font-size: 1rem; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Recommended Alignments</h4>
+            <div class="gem-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 0;">
+              <% latestRecommendation.recommendedGemstones.forEach(gem => { %>
+                <div class="glass-panel gem-card" style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.05);">
+                  <div class="gem-img-container" style="height: 140px;">
+                    <img src="<%= gem.image %>" alt="<%= gem.name %>" class="gem-img">
+                  </div>
+                  <div class="gem-info" style="padding: 1.2rem;">
+                    <h4 class="gem-title" style="font-size: 1.15rem;"><%= gem.name %></h4>
+                    <div class="gem-planet" style="font-size: 0.8rem; margin-bottom: 0.5rem;">Planet: <%= gem.planet %></div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.8rem;"><%= gem.description.substring(0, 75) %>...</p>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+
+          <div style="text-align: right;">
+            <a href="/user/recommendations/<%= latestRecommendation._id %>" class="btn btn-secondary"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Complete Report</a>
+          </div>
+        <% } else { %>
+          <div style="text-align: center; padding: 3rem 1rem;">
+            <i class="fa-solid fa-compass" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1.5rem;"></i>
+            <h4 style="font-size: 1.2rem; color: var(--text-white); margin-bottom: 0.5rem;">No Astro-Report Generated Yet</h4>
+            <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 2rem auto; font-size: 0.95rem;">
+              Submit your birth details and target life challenges to generate your first planetary gemstone alignment.
+            </p>
+            <a href="/user/recommend" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Launch Recommendation Engine</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

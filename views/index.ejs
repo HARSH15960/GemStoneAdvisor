@@ -1,0 +1,241 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<!-- Hero Section -->
+<header class="main-container hero">
+  <div class="hero-tag">
+    <i class="fa-solid fa-star-of-david text-gold"></i> Astrological Recommendation Engine
+  </div>
+  <h1 class="hero-title">
+    Unlock Your Destiny With The<br>
+    <span>Perfect Gemstone Alignment</span>
+  </h1>
+  <p class="hero-subtitle">
+    Harness the energetic properties of planetary crystals. Our advanced astrology engine analyzes your birth profile and challenges to align you with your cosmic guide.
+  </p>
+  <div class="hero-buttons">
+    <% if (user) { %>
+      <a href="/user/recommend" class="btn btn-primary btn-lg"><i class="fa-solid fa-wand-magic-sparkles"></i> Get Recommendation</a>
+      <a href="/user/dashboard" class="btn btn-secondary btn-lg"><i class="fa-solid fa-columns"></i> Dashboard</a>
+    <% } else { %>
+      <a href="/auth/signup" class="btn btn-primary btn-lg"><i class="fa-solid fa-user-plus"></i> Begin Cosmic Journey</a>
+      <a href="/auth/login" class="btn btn-secondary btn-lg"><i class="fa-solid fa-sign-in-alt"></i> Access Dashboard</a>
+    <% } %>
+  </div>
+
+  <!-- Hero Statistics Counters -->
+  <div class="hero-counters">
+    <div class="glass-panel counter-card">
+      <div class="counter-number" data-target="5000">0</div>
+      <div class="counter-label">Recommendations Generated</div>
+    </div>
+    <div class="glass-panel counter-card">
+      <div class="counter-number" data-target="95">0</div>
+      <div class="counter-label">User Satisfaction</div>
+    </div>
+    <div class="glass-panel counter-card">
+      <div class="counter-number" data-target="9">0</div>
+      <div class="counter-label">Premium Gemstones</div>
+    </div>
+  </div>
+</header>
+
+<!-- Popular Gemstones Showcase -->
+<section class="main-container">
+  <div class="section-header">
+    <h2 class="section-title">Planetary Guardians</h2>
+    <p class="section-subtitle">Discover the main gemstones representing the celestial bodies and their primary cosmic influences.</p>
+  </div>
+  
+  <div class="gem-grid">
+    <% if (gemstones && gemstones.length > 0) { %>
+      <% gemstones.forEach(gem => { %>
+        <div class="glass-panel gem-card">
+          <div class="gem-img-container">
+            <img src="<%= gem.image %>" alt="<%= gem.name %>" class="gem-img">
+            <span class="gem-tag"><%= gem.priceRange %></span>
+          </div>
+          <div class="gem-info">
+            <h3 class="gem-title"><%= gem.name %></h3>
+            <div class="gem-planet">
+              <i class="fa-solid fa-globe text-primary"></i> Planet: <%= gem.planet %>
+            </div>
+            <p class="gem-desc"><%= gem.description.substring(0, 120) %>...</p>
+            <div class="gem-meta">
+              <div class="meta-item">
+                <span>Wear Day</span>
+                <strong><%= gem.wearDay %></strong>
+              </div>
+              <div class="meta-item">
+                <span>Metal</span>
+                <strong><%= gem.metal %></strong>
+              </div>
+            </div>
+            <% if (user) { %>
+              <a href="/user/recommend" class="btn btn-primary btn-small" style="width: 100%;"><i class="fa-solid fa-wand-magic-sparkles"></i> Check Alignment</a>
+            <% } else { %>
+              <a href="/auth/login" class="btn btn-secondary btn-small" style="width: 100%;"><i class="fa-solid fa-lock"></i> Login to Unlock</a>
+            <% } %>
+          </div>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <!-- Fallback Mock Gemstone Cards in case database isn't seeded yet -->
+      <div class="glass-panel gem-card">
+        <div class="gem-img-container">
+          <img src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=400&q=80" alt="Ruby" class="gem-img">
+          <span class="gem-tag">Premium</span>
+        </div>
+        <div class="gem-info">
+          <h3 class="gem-title">Ruby (Manik)</h3>
+          <div class="gem-planet"><i class="fa-solid fa-sun text-gold"></i> Planet: Sun</div>
+          <p class="gem-desc">Symbolizes power, status, and leadership. Boosts confidence and clears career pathways.</p>
+          <div class="gem-meta">
+            <div class="meta-item"><span>Wear Day</span><strong>Sunday</strong></div>
+            <div class="meta-item"><span>Metal</span><strong>Gold</strong></div>
+          </div>
+          <a href="/auth/signup" class="btn btn-primary btn-small" style="width: 100%;">Get Started</a>
+        </div>
+      </div>
+      
+      <div class="glass-panel gem-card">
+        <div class="gem-img-container">
+          <img src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?auto=format&fit=crop&w=400&q=80" alt="Emerald" class="gem-img">
+          <span class="gem-tag">High</span>
+        </div>
+        <div class="gem-info">
+          <h3 class="gem-title">Emerald (Panna)</h3>
+          <div class="gem-planet"><i class="fa-solid fa-mercury text-primary"></i> Planet: Mercury</div>
+          <p class="gem-desc">Crystals of wisdom, communication, and business intelligence. Enhances educational success.</p>
+          <div class="gem-meta">
+            <div class="meta-item"><span>Wear Day</span><strong>Wednesday</strong></div>
+            <div class="meta-item"><span>Metal</span><strong>Gold/Silver</strong></div>
+          </div>
+          <a href="/auth/signup" class="btn btn-primary btn-small" style="width: 100%;">Get Started</a>
+        </div>
+      </div>
+      
+      <div class="glass-panel gem-card">
+        <div class="gem-img-container">
+          <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80" alt="Blue Sapphire" class="gem-img">
+          <span class="gem-tag">Elite</span>
+        </div>
+        <div class="gem-info">
+          <h3 class="gem-title">Blue Sapphire (Neelam)</h3>
+          <div class="gem-planet"><i class="fa-solid fa-ring text-secondary"></i> Planet: Saturn</div>
+          <p class="gem-desc">Extremely powerful gemstone for career gains, massive wealth, and warding off misfortune.</p>
+          <div class="gem-meta">
+            <div class="meta-item"><span>Wear Day</span><strong>Saturday</strong></div>
+            <div class="meta-item"><span>Metal</span><strong>Panchdhatu</strong></div>
+          </div>
+          <a href="/auth/signup" class="btn btn-primary btn-small" style="width: 100%;">Get Started</a>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="main-container" style="background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); padding: 4rem 2rem; border: 1px solid var(--border-glass);">
+  <div class="section-header">
+    <h2 class="section-title">The Path of Alignment</h2>
+    <p class="section-subtitle">How AuraGems determines your optimal astrological crystals.</p>
+  </div>
+  
+  <div class="feature-grid" style="margin-bottom: 0;">
+    <div class="glass-panel feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-user-astronaut"></i></div>
+      <h3>1. Create Profile</h3>
+      <p>Sign up and input your core birth coordinates. Your details allow our engine to lock onto your astrological chart.</p>
+    </div>
+    
+    <div class="glass-panel feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-compass"></i></div>
+      <h3>2. Choose Challenge Area</h3>
+      <p>Select the specific aspect of life you want to strengthen: career advancement, financial flows, health, or marital harmony.</p>
+    </div>
+    
+    <div class="glass-panel feature-card">
+      <div class="feature-icon"><i class="fa-solid fa-gem"></i></div>
+      <h3>3. Harness Crystal Energy</h3>
+      <p>Receive your detailed gemstone recommendations, complete with instructions on metals, ideal wear days, and cosmic benefits.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="main-container">
+  <div class="section-header">
+    <h2 class="section-title">Testimonials of Alignment</h2>
+    <p class="section-subtitle">Read how our recommended gemstones have transformed lives across career, business, and health.</p>
+  </div>
+  
+  <div class="feature-grid">
+    <div class="glass-panel feature-card">
+      <div style="color: var(--color-gold); margin-bottom: 1rem;">
+        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+      </div>
+      <p style="font-style: italic; margin-bottom: 1.5rem; color: var(--text-main);">
+        "I was facing severe delays in my business expansion. Gemstone Advisor recommended wearing Emerald on Wednesdays. Within two months, I closed our first series funding!"
+      </p>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--text-white);">VK</div>
+        <div>
+          <h4 style="font-size: 0.95rem; color: var(--text-white);">Vikram Khanna</h4>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Business Owner</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="glass-panel feature-card">
+      <div style="color: var(--color-gold); margin-bottom: 1rem;">
+        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+      </div>
+      <p style="font-style: italic; margin-bottom: 1.5rem; color: var(--text-main);">
+        "Wearing Yellow Sapphire, as recommended for my Sagittarius zodiac in the Career segment, completely shifted my professional visibility. I received a long-awaited double promotion!"
+      </p>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--secondary-gradient); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--text-white);">SP</div>
+        <div>
+          <h4 style="font-size: 0.95rem; color: var(--text-white);">Sonia Patel</h4>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Software Architect</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="glass-panel feature-card">
+      <div style="color: var(--color-gold); margin-bottom: 1rem;">
+        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+      </div>
+      <p style="font-style: italic; margin-bottom: 1.5rem; color: var(--text-main);">
+        "I was dealing with chronic fatigue and mental anxiety. The recommendation engine matched me with Pearl (Moon) for health. The mental peace and physical rejuvenation have been incredible."
+      </p>
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gold-gradient); display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--text-dark);">MR</div>
+        <div>
+          <h4 style="font-size: 0.95rem; color: var(--text-white);">Michael Ross</h4>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Creative Director</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="main-container text-center" style="padding: 4rem 0;">
+  <div class="glass-panel" style="padding: 4rem 2rem; border-color: rgba(167, 139, 250, 0.3); background: linear-gradient(135deg, rgba(25, 28, 59, 0.6) 0%, rgba(49, 16, 66, 0.4) 100%);">
+    <h2 style="font-size: 2.5rem; color: var(--text-white); margin-bottom: 1.5rem;">Ready to Sync With Your Cosmic Planets?</h2>
+    <p style="color: var(--text-muted); font-size: 1.15rem; max-width: 650px; margin: 0 auto 2.5rem auto;">
+      Create a free account, complete your details, and instantly view your gemstone recommendation.
+    </p>
+    <div>
+      <% if (user) { %>
+        <a href="/user/recommend" class="btn btn-primary btn-lg"><i class="fa-solid fa-wand-magic-sparkles"></i> Match Gemstone Now</a>
+      <% } else { %>
+        <a href="/auth/signup" class="btn btn-primary btn-lg"><i class="fa-solid fa-rocket"></i> Get Started Free</a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

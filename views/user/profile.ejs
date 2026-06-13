@@ -1,0 +1,96 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar">
+      <a href="/user/dashboard" class="sidebar-link"><i class="fa-solid fa-gauge"></i> Overview</a>
+      <a href="/user/recommend" class="sidebar-link"><i class="fa-solid fa-wand-magic-sparkles"></i> Recommendation</a>
+      <a href="/user/history" class="sidebar-link"><i class="fa-solid fa-history"></i> History Log</a>
+      <a href="/user/favorites" class="sidebar-link"><i class="fa-solid fa-star"></i> Saved Favorites</a>
+      <a href="/user/profile" class="sidebar-link active"><i class="fa-solid fa-user-gear"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div>
+        <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Profile Settings</h2>
+        <p style="color: var(--text-muted);">Manage your account profile details and security password</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <% if (success) { %>
+        <div class="alert alert-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <span><%= success %></span>
+        </div>
+      <% } %>
+
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <form action="/user/profile" method="POST">
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            Personal Details
+          </h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" id="name" name="name" class="form-control" value="<%= user.name %>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" class="form-control" value="<%= user.email %>" readonly style="opacity: 0.65; cursor: not-allowed;">
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Email address cannot be modified</span>
+            </div>
+          </div>
+
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-top: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            Security Settings (Optional)
+          </h3>
+
+          <div class="form-group">
+            <label for="currentPassword" class="form-label">Current Password</label>
+            <div class="password-container">
+              <input type="password" id="currentPassword" name="currentPassword" class="form-control" placeholder="Enter current password to verify">
+              <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="newPassword" class="form-label">New Password</label>
+              <div class="password-container">
+                <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="At least 6 characters">
+                <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword" class="form-label">Confirm New Password</label>
+              <div class="password-container">
+                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Re-enter new password">
+                <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-save"></i> Save Profile Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

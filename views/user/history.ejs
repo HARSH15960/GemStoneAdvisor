@@ -1,0 +1,88 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar">
+      <a href="/user/dashboard" class="sidebar-link"><i class="fa-solid fa-gauge"></i> Overview</a>
+      <a href="/user/recommend" class="sidebar-link"><i class="fa-solid fa-wand-magic-sparkles"></i> Recommendation</a>
+      <a href="/user/history" class="sidebar-link active"><i class="fa-solid fa-history"></i> History Log</a>
+      <a href="/user/favorites" class="sidebar-link"><i class="fa-solid fa-star"></i> Saved Favorites</a>
+      <a href="/user/profile" class="sidebar-link"><i class="fa-solid fa-user-gear"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div>
+        <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Recommendation History</h2>
+        <p style="color: var(--text-muted); margin-bottom: 1.5rem;">View all astrological diagnostics run on this account</p>
+      </div>
+
+      <!-- Category Filtering Pills -->
+      <div class="filter-pills">
+        <button class="filter-pill-btn active" data-filter="All">All Categories</button>
+        <button class="filter-pill-btn" data-filter="Career">Career</button>
+        <button class="filter-pill-btn" data-filter="Business">Business</button>
+        <button class="filter-pill-btn" data-filter="Money">Money</button>
+        <button class="filter-pill-btn" data-filter="Marriage">Marriage</button>
+        <button class="filter-pill-btn" data-filter="Education">Education</button>
+        <button class="filter-pill-btn" data-filter="Health">Health</button>
+      </div>
+
+      <div class="glass-panel" style="padding: 2rem; overflow: hidden;">
+        <% if (history && history.length > 0) { %>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Zodiac</th>
+                  <th>Challenge</th>
+                  <th>Gemstone Alignment</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% history.forEach(item => { %>
+                  <tr>
+                    <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
+                    <td style="color: var(--text-white); font-weight: 500;"><%= item.fullName %></td>
+                    <td><%= item.zodiacSign %></td>
+                    <td>
+                      <span class="badge badge-primary"><%= item.problemCategory %></span>
+                    </td>
+                    <td>
+                      <% if (item.recommendedGemstones && item.recommendedGemstones.length > 0) { %>
+                        <%= item.recommendedGemstones.filter(g => g).map(g => g.name).join(', ') %>
+                      <% } else { %>
+                        <span style="color: var(--text-muted);">None</span>
+                      <% } %>
+                    </td>
+                    <td>
+                      <a href="/user/recommendations/<%= item._id %>" class="btn btn-secondary btn-small">
+                        <i class="fa-solid fa-file-waveform"></i> Report
+                      </a>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <div style="text-align: center; padding: 5rem 2rem; border-color: rgba(255, 255, 255, 0.05);">
+            <i class="fa-regular fa-folder-open floating-gem" style="font-size: 4rem; color: var(--color-primary); margin-bottom: 1.5rem; opacity: 0.6; display: inline-block;"></i>
+            <h4 style="font-size: 1.5rem; color: var(--text-white); margin-bottom: 0.75rem; font-family: var(--font-display);">No recommendations generated yet.</h4>
+            <p style="color: var(--text-muted); max-width: 480px; margin: 0 auto 2.25rem auto; font-size: 0.95rem; line-height: 1.6;">
+              Consult our astrological diagnostics engine to generate your first planetary gemstone alignment report.
+            </p>
+            <a href="/user/recommend" class="btn btn-primary"><i class="fa-solid fa-wand-magic-sparkles"></i> Consult Gemstone Advisor</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

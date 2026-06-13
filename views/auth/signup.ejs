@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="auth-wrapper">
+    <!-- Left Column (Branding & Astrology Graphic) -->
+    <div class="auth-sidebar" style="background-image: url('https://images.unsplash.com/photo-1515586838455-8f8f940d6853?auto=format&fit=crop&w=800&q=80');">
+      <div class="auth-sidebar-content">
+        <h2>Align Your Energy</h2>
+        <p>Unlock personalized crystal and planetary recommendations. Harness ancient astrological wisdom tailored to your modern career, relationship, and health goals.</p>
+      </div>
+    </div>
+
+    <!-- Right Column (Form Container) -->
+    <div class="auth-form-container">
+      <div class="auth-form-header">
+        <h3>Begin Your Journey</h3>
+        <p>Create a secure account to generate recommendations</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <form action="/auth/signup" method="POST">
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" id="name" name="name" class="form-control" placeholder="Enter your full name" value="<%= locals.name || '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="name@domain.com" value="<%= locals.email || '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-container">
+            <input type="password" id="password" name="password" class="form-control" placeholder="At least 6 characters" required>
+            <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <div class="password-container">
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="Re-enter password" required>
+            <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          <i class="fa-solid fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <p style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+        Already registered? <a href="/auth/login" style="color: var(--color-primary); font-weight: 500;">Access Dashboard</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

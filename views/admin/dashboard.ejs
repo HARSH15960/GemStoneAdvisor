@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Admin Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar" style="border-color: rgba(251, 191, 36, 0.15);">
+      <a href="/admin/dashboard" class="sidebar-link active"><i class="fa-solid fa-chart-line"></i> Summary Stats</a>
+      <a href="/admin/users" class="sidebar-link"><i class="fa-solid fa-users-gear"></i> User Grid</a>
+      <a href="/admin/gemstones" class="sidebar-link"><i class="fa-solid fa-gem"></i> Gemstone CRUD</a>
+      <a href="/" class="sidebar-link" style="color: var(--color-primary);"><i class="fa-solid fa-arrow-left"></i> User View</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div>
+        <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Administration Dashboard</h2>
+        <p style="color: var(--text-muted);">Platform status, metric aggregates, and recent system operations</p>
+      </div>
+
+      <!-- Quick Admin Stats counters -->
+      <div class="stats-row">
+        <div class="glass-panel stat-card" style="border-color: rgba(251, 191, 36, 0.15);">
+          <div class="stat-num" style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><%= stats.users %></div>
+          <div class="stat-label">Total Users</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(251, 191, 36, 0.15);">
+          <div class="stat-num" style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><%= stats.recommendations %></div>
+          <div class="stat-label">Total Recommendations</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(251, 191, 36, 0.15);">
+          <div class="stat-num" style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"><%= stats.favorites %></div>
+          <div class="stat-label">Total Favorites</div>
+        </div>
+        <div class="glass-panel stat-card" style="border-color: rgba(251, 191, 36, 0.15);">
+          <div class="stat-num" style="background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem; line-height: 2.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="<%= stats.mostRecommended.name %>"><%= stats.mostRecommended.name %></div>
+          <div class="stat-label">Most Recommended (<%= stats.mostRecommended.count %>)</div>
+        </div>
+      </div>
+
+      <!-- Recent System Recommendations -->
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <h3 style="font-size: 1.4rem; color: var(--text-white); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-history text-gold"></i> Recent Recommendation Diagnostics
+        </h3>
+        
+        <% if (recentRecommendations && recentRecommendations.length > 0) { %>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>User Account</th>
+                  <th>Subject Profile</th>
+                  <th>Zodiac</th>
+                  <th>Focus Area</th>
+                  <th>Gemstone Output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% recentRecommendations.forEach(item => { %>
+                  <tr>
+                    <td><%= new Date(item.createdAt).toLocaleDateString() %></td>
+                    <td>
+                      <% if (item.user) { %>
+                        <div style="font-weight: 500; color: var(--text-white);"><%= item.user.name %></div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);"><%= item.user.email %></div>
+                      <% } else { %>
+                        <span style="color: var(--text-muted);">Deleted User</span>
+                      <% } %>
+                    </td>
+                    <td style="color: var(--text-white);"><%= item.fullName %></td>
+                    <td><%= item.zodiacSign %></td>
+                    <td>
+                      <span class="badge badge-primary"><%= item.problemCategory %></span>
+                    </td>
+                    <td>
+                      <%= item.recommendedGemstones.filter(g => g).map(g => g.name).join(', ') %>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+        <% } else { %>
+          <p style="text-align: center; color: var(--text-muted); padding: 2rem 0;">No system logs available. No recommendations have been processed yet.</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,81 @@
+  <footer style="padding: 1.5rem 0; margin-top: 3rem; background: rgba(9, 10, 22, 0.95); border-top: 1px solid var(--border-glass); font-family: var(--font-sans); font-size: 0.8rem; line-height: 1.5;">
+    <div style="width: 90%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+      
+      <!-- Top Row: Logo + Description, and Support -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        
+        <!-- Brand & Description -->
+        <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+          <div class="brand" style="font-size: 1.15rem; display: flex; align-items: center; gap: 0.4rem; font-family: var(--font-display);">
+            <i class="fa-solid fa-gem text-gold"></i>
+            <span>Gemstone <span class="brand-accent">Advisor</span></span>
+          </div>
+          <span class="footer-divider-pipe" style="height: 14px; width: 1px; background: rgba(255,255,255,0.1); display: inline-block;"></span>
+          <p style="color: var(--text-muted); margin: 0; line-height: 1.4; max-width: 380px;">
+            Personalized astrological diagnostics matching birth profiles with planetary crystals.
+          </p>
+        </div>
+
+        <!-- Support -->
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <a href="mailto:support@gemstoneadvisor.com" style="color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 0.35rem; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">
+            <i class="fa-regular fa-envelope"></i> support@gemstoneadvisor.com
+          </a>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div style="border-top: 1px solid rgba(255, 255, 255, 0.05); width: 100%; margin: 0.25rem 0;"></div>
+
+      <!-- Bottom Row: Quick Links and Copyright -->
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem;">
+        <!-- Quick Links -->
+        <div style="display: flex; gap: 1.25rem; flex-wrap: wrap;">
+          <a href="/" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">Home</a>
+          <a href="/user/dashboard" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">Dashboard</a>
+          <a href="/user/recommend" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">Recommendation</a>
+          <a href="/user/history" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">History</a>
+          <a href="/user/favorites" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">Favorites</a>
+          <a href="/user/profile" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-white)'" onmouseout="this.style.color='var(--text-muted)'">Profile</a>
+          <span style="color: rgba(255,255,255,0.15); margin: 0 0.25rem;" class="footer-divider-pipe">|</span>
+          <!-- <a href="/auth/admin-login" style="color: var(--text-muted); text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='var(--text-gold)'" onmouseout="this.style.color='var(--text-muted)'">Admin</a> -->
+        </div>
+
+        <!-- Copyright -->
+        <div style="color: var(--text-muted); font-size: 0.75rem;">
+          &copy; 2026 Gemstone Advisor. All rights reserved.
+        </div>
+      </div>
+
+    </div>
+
+    <style>
+      @media (max-width: 768px) {
+        .footer-divider-pipe {
+          display: none !important;
+        }
+        footer > div {
+          align-items: center;
+          text-align: center;
+        }
+        footer > div > div {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          width: 100%;
+        }
+        footer p {
+          max-width: 100% !important;
+          margin-top: 0.5rem !important;
+        }
+        footer a {
+          justify-content: center;
+        }
+      }
+    </style>
+  </footer>
+
+  <!-- Main JavaScript Utility -->
+  <script src="/js/main.js"></script>
+</body>
+</html>

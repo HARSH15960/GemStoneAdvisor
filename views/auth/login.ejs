@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="auth-wrapper">
+    <!-- Left Column (Branding & Astrology Graphic) -->
+    <div class="auth-sidebar" style="background-image: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80');">
+      <div class="auth-sidebar-content">
+        <h2>Enter the Sanctuary</h2>
+        <p>Return to your dashboard. Access stored recommendation histories, save favorites, and consult the celestial engine on new challenges.</p>
+      </div>
+    </div>
+
+    <!-- Right Column (Form Container) -->
+    <div class="auth-form-container">
+      <div class="auth-form-header">
+        <h3>Welcome Back</h3>
+        <p>Log in to your cosmic recommendation account</p>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <form action="/auth/login" method="POST">
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="name@domain.com" value="<%= locals.email || '' %>" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="password-container">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            <span class="password-toggle-icon"><i class="fa-solid fa-eye"></i></span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          <i class="fa-solid fa-sign-in-alt"></i> Sign In
+        </button>
+      </form>
+
+      <p style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+        New to Gemstone Advisor? <a href="/auth/signup" style="color: var(--color-primary); font-weight: 500;">Begin Free Alignment</a>
+      </p>
+      <p style="margin-top: 0.5rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
+        Are you an administrator? <a href="/auth/admin-login" style="color: var(--color-gold); font-weight: 500;">Portal Login</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

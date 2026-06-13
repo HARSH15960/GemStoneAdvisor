@@ -1,0 +1,122 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar">
+      <a href="/user/dashboard" class="sidebar-link"><i class="fa-solid fa-gauge"></i> Overview</a>
+      <a href="/user/recommend" class="sidebar-link active"><i class="fa-solid fa-wand-magic-sparkles"></i> Recommendation</a>
+      <a href="/user/history" class="sidebar-link"><i class="fa-solid fa-history"></i> History Log</a>
+      <a href="/user/favorites" class="sidebar-link"><i class="fa-solid fa-star"></i> Saved Favorites</a>
+      <a href="/user/profile" class="sidebar-link"><i class="fa-solid fa-user-gear"></i> Settings</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div>
+        <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Celestial Alignment Form</h2>
+        <p style="color: var(--text-muted);">Provide your coordinate profile to query the cosmic database for compatible planetary crystals</p>
+      </div>
+
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <form action="/user/recommend" method="POST" id="recommend-form">
+          
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            <i class="fa-solid fa-user-astronaut text-primary"></i> 1. Birth Coordinates
+          </h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="fullName" class="form-label">Full Name</label>
+              <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Enter full name" value="<%= user.name %>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="gender" class="form-label">Gender</label>
+              <select id="gender" name="gender" class="form-control" required>
+                <option value="" disabled selected>Select gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="dob" class="form-label">Date of Birth</label>
+              <input type="date" id="dob" name="dob" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+              <label for="zodiacSign" class="form-label">Zodiac Sign</label>
+              <select id="zodiacSign" name="zodiacSign" class="form-control" required>
+                <option value="" disabled selected>Select zodiac sign</option>
+                <option value="Aries">Aries (Mesh)</option>
+                <option value="Taurus">Taurus (Vrishabha)</option>
+                <option value="Gemini">Gemini (Mithuna)</option>
+                <option value="Cancer">Cancer (Karka)</option>
+                <option value="Leo">Leo (Simha)</option>
+                <option value="Virgo">Virgo (Kanya)</option>
+                <option value="Libra">Libra (Tula)</option>
+                <option value="Scorpio">Scorpio (Vrishchika)</option>
+                <option value="Sagittarius">Sagittarius (Dhanu)</option>
+                <option value="Capricorn">Capricorn (Makara)</option>
+                <option value="Aquarius">Aquarius (Kumbha)</option>
+                <option value="Pisces">Pisces (Meena)</option>
+              </select>
+            </div>
+          </div>
+
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-top: 2.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            <i class="fa-solid fa-compass text-primary"></i> 2. Target Life Challenge
+          </h3>
+
+          <div class="form-group">
+            <label for="problemCategory" class="form-label">Primary Challenge Area</label>
+            <select id="problemCategory" name="problemCategory" class="form-control" required>
+              <option value="" disabled selected>Select problem area</option>
+              <option value="Career">Career (Job, promotion, authority, growth)</option>
+              <option value="Business">Business (Trade, expansion, legal, deals)</option>
+              <option value="Money">Money (Financial blocks, savings, stability)</option>
+              <option value="Marriage">Marriage (Relationships, harmony, family)</option>
+              <option value="Education">Education (Focus, learning, competitive tests)</option>
+              <option value="Health">Health (Vitality, mental peace, protection)</option>
+            </select>
+            <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 0.5rem;">
+              Selecting a challenge area helps align planetary energy to dissolve hurdles in that specific dimension.
+            </span>
+          </div>
+
+          <div style="text-align: right; margin-top: 2.5rem;">
+            <button type="submit" class="btn btn-primary btn-lg" style="box-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Consult Recommendation Engine
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cosmic Loader Overlay -->
+<div id="astro-loader" class="astro-loader-overlay">
+  <div class="astro-spinner"></div>
+  <div class="astro-loader-text">Analyzing Birth Profile...</div>
+  <div class="astro-loader-steps">
+    <div class="astro-loader-step" id="step-profile">
+      <i class="fa-regular fa-circle"></i> Analyzing Birth Coordinates
+    </div>
+    <div class="astro-loader-step" id="step-planets">
+      <i class="fa-regular fa-circle"></i> Calculating Planetary Influences
+    </div>
+    <div class="astro-loader-step" id="step-matching">
+      <i class="fa-regular fa-circle"></i> Matching Celestial Crystal Alignments
+    </div>
+    <div class="astro-loader-step" id="step-rendering">
+      <i class="fa-regular fa-circle"></i> Compiling Diagnostic Astro-Report
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

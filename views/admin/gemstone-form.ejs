@@ -1,0 +1,137 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Admin Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar" style="border-color: rgba(251, 191, 36, 0.15);">
+      <a href="/admin/dashboard" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Summary Stats</a>
+      <a href="/admin/users" class="sidebar-link"><i class="fa-solid fa-users-gear"></i> User Grid</a>
+      <a href="/admin/gemstones" class="sidebar-link active"><i class="fa-solid fa-gem"></i> Gemstone CRUD</a>
+      <a href="/" class="sidebar-link" style="color: var(--color-primary);"><i class="fa-solid fa-arrow-left"></i> User View</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <a href="/admin/gemstones" class="btn btn-secondary btn-small" title="Back to catalog"><i class="fa-solid fa-arrow-left"></i></a>
+        <div>
+          <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">
+            <%= editing ? `Modify Gemstone Specs` : 'Catalog New Gemstone' %>
+          </h2>
+          <p style="color: var(--text-muted);">
+            <%= editing ? `Update settings and astrological alignments for ${gemstone.name}` : 'Create a new gemstone specification entry for the engine' %>
+          </p>
+        </div>
+      </div>
+
+      <% if (error) { %>
+        <div class="alert alert-danger">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span><%= error %></span>
+        </div>
+      <% } %>
+
+      <div class="glass-panel" style="padding: 2.5rem;">
+        <form action="/admin/gemstones<%= editing ? '/' + gemstone._id + '?_method=PUT' : '' %>" method="POST">
+          
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            Core Gemstone Attributes
+          </h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name" class="form-label">Gemstone Name</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="e.g., Emerald (Panna)" value="<%= gemstone ? gemstone.name : '' %>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="planet" class="form-label">Associated Ruling Planet</label>
+              <input type="text" id="planet" name="planet" class="form-control" placeholder="e.g., Mercury" value="<%= gemstone ? gemstone.planet : '' %>" required>
+            </div>
+
+            <div class="form-group">
+              <label for="priceRange" class="form-label">Price Category / Range</label>
+              <select id="priceRange" name="priceRange" class="form-control" required>
+                <option value="" disabled selected>Select price range</option>
+                <option value="Budget" <%= gemstone && gemstone.priceRange === 'Budget' ? 'selected' : '' %>>Budget (Affordable)</option>
+                <option value="Moderate" <%= gemstone && gemstone.priceRange === 'Moderate' ? 'selected' : '' %>>Moderate (Mid-tier)</option>
+                <option value="High" <%= gemstone && gemstone.priceRange === 'High' ? 'selected' : '' %>>High (Premium quality)</option>
+                <option value="Elite" <%= gemstone && gemstone.priceRange === 'Elite' ? 'selected' : '' %>>Elite (Rare/Top-quality)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="image" class="form-label">Gemstone Image URL</label>
+              <input type="url" id="image" name="image" class="form-control" placeholder="https://unsplash.com/..." value="<%= gemstone ? gemstone.image : '' %>" required>
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Use a high-quality stock photo URL</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description" class="form-label">Detailed Description</label>
+            <textarea id="description" name="description" class="form-control" rows="4" placeholder="Describe the physical features, spiritual properties, and wearing rituals..." required><%= gemstone ? gemstone.description : '' %></textarea>
+          </div>
+
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-top: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            Astro-Wearing Rituals
+          </h3>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="wearDay" class="form-label">Wearing Day of Week</label>
+              <select id="wearDay" name="wearDay" class="form-control" required>
+                <option value="" disabled selected>Select day</option>
+                <option value="Sunday" <%= gemstone && gemstone.wearDay === 'Sunday' ? 'selected' : '' %>>Sunday (Sun)</option>
+                <option value="Monday" <%= gemstone && gemstone.wearDay === 'Monday' ? 'selected' : '' %>>Monday (Moon)</option>
+                <option value="Tuesday" <%= gemstone && gemstone.wearDay === 'Tuesday' ? 'selected' : '' %>>Tuesday (Mars)</option>
+                <option value="Wednesday" <%= gemstone && gemstone.wearDay === 'Wednesday' ? 'selected' : '' %>>Wednesday (Mercury)</option>
+                <option value="Thursday" <%= gemstone && gemstone.wearDay === 'Thursday' ? 'selected' : '' %>>Thursday (Jupiter)</option>
+                <option value="Friday" <%= gemstone && gemstone.wearDay === 'Friday' ? 'selected' : '' %>>Friday (Venus)</option>
+                <option value="Saturday" <%= gemstone && gemstone.wearDay === 'Saturday' ? 'selected' : '' %>>Saturday (Saturn)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="metal" class="form-label text-white">Recommended Metal Ring</label>
+              <input type="text" id="metal" name="metal" class="form-control" placeholder="e.g., Gold, Silver, Copper, Panchdhatu" value="<%= gemstone ? gemstone.metal : '' %>" required>
+            </div>
+          </div>
+
+          <h3 style="font-size: 1.25rem; color: var(--text-white); margin-top: 2rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-glass); padding-bottom: 0.5rem;">
+            Cosmic Alignments & Benefits
+          </h3>
+
+          <div class="form-group">
+            <label for="benefits" class="form-label">Cosmic Benefits (Comma separated)</label>
+            <input type="text" id="benefits" name="benefits" class="form-control" placeholder="e.g., Boosts wisdom, Sharpens memory, Increases wealth focus" value="<%= gemstone && gemstone.benefits ? (Array.isArray(gemstone.benefits) ? gemstone.benefits.join(', ') : gemstone.benefits) : '' %>" required>
+            <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Separate distinct benefit phrases with a comma</span>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="zodiacSigns" class="form-label">Compatible Zodiac Signs (Comma separated)</label>
+              <input type="text" id="zodiacSigns" name="zodiacSigns" class="form-control" placeholder="e.g., Gemini, Virgo, Taurus" value="<%= gemstone && gemstone.zodiacSigns ? (Array.isArray(gemstone.zodiacSigns) ? gemstone.zodiacSigns.join(', ') : gemstone.zodiacSigns) : '' %>" required>
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Zodiac signs that can wear this gemstone safely</span>
+            </div>
+
+            <div class="form-group">
+              <label for="problemCategories" class="form-label">Problem Category Alignment (Comma separated)</label>
+              <input type="text" id="problemCategories" name="problemCategories" class="form-control" placeholder="e.g., Career, Money, Education" value="<%= gemstone && gemstone.problemCategories ? (Array.isArray(gemstone.problemCategories) ? gemstone.problemCategories.join(', ') : gemstone.problemCategories) : '' %>" required>
+              <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-top: 0.25rem;">Challenge areas: Career, Business, Money, Marriage, Education, Health</span>
+            </div>
+          </div>
+
+          <div style="text-align: right; margin-top: 2.5rem; display: flex; justify-content: flex-end; gap: 1rem;">
+            <a href="/admin/gemstones" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-gold" style="color: #1f2937;">
+              <i class="fa-solid fa-save"></i> <%= editing ? 'Update Gemstone Specifications' : 'Save New Gemstone' %>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,35 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="brand">
+      <i class="fa-solid fa-gem" style="color: var(--color-gold);"></i>
+      <span>Gemstone <span class="brand-accent">Advisor</span></span>
+    </a>
+    
+    <button class="menu-toggle" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    
+    <ul class="nav-links">
+      <li><a href="/" class="nav-link">Home</a></li>
+      <li><button id="theme-toggle" class="btn btn-secondary btn-small" style="padding: 0.4rem 0.8rem;" aria-label="Toggle Theme"><i class="fa-solid fa-sun"></i></button></li>
+      
+      <% if (user) { %>
+        <li><a href="/user/dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="/user/recommend" class="nav-link">Get Recommendation</a></li>
+        <li><a href="/user/history" class="nav-link">History</a></li>
+        <li><a href="/user/favorites" class="nav-link">Favorites</a></li>
+        <li><a href="/user/profile" class="nav-link">Profile</a></li>
+        
+        <% if (user.role === 'admin') { %>
+          <li><a href="/admin/dashboard" class="nav-link" style="color: var(--color-gold);"><i class="fa-solid fa-toolbox"></i> Admin</a></li>
+        <% } %>
+        
+        <li><a href="/auth/logout" class="btn btn-secondary btn-small"><i class="fa-solid fa-sign-out-alt"></i> Logout</a></li>
+      <% } else { %>
+        <li><a href="/auth/login" class="nav-link">Login</a></li>
+        <li><a href="/auth/signup" class="nav-link">Signup</a></li>
+        <!-- <li><a href="/user/recommend" class="btn btn-primary btn-small"><i class="fa-solid fa-wand-magic-sparkles"></i> Try Now</a></li> -->
+      <% } %>
+    </ul>
+  </div>
+</nav>

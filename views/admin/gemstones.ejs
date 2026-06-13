@@ -1,0 +1,123 @@
+<%- include('../partials/header') %>
+<%- include('../partials/admin-navbar') %>
+
+<div class="main-container">
+  <div class="dashboard-grid">
+    <!-- Admin Sidebar Navigation -->
+    <div class="glass-panel dashboard-sidebar" style="border-color: rgba(251, 191, 36, 0.15);">
+      <a href="/admin/dashboard" class="sidebar-link"><i class="fa-solid fa-chart-line"></i> Summary Stats</a>
+      <a href="/admin/users" class="sidebar-link"><i class="fa-solid fa-users-gear"></i> User Grid</a>
+      <a href="/admin/gemstones" class="sidebar-link active"><i class="fa-solid fa-gem"></i> Gemstone CRUD</a>
+      <a href="/" class="sidebar-link" style="color: var(--color-primary);"><i class="fa-solid fa-arrow-left"></i> User View</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      <div class="dashboard-header-block">
+        <div>
+          <h2 style="font-size: 2rem; color: var(--text-white); font-family: var(--font-display);">Gemstone Catalog Management</h2>
+          <p style="color: var(--text-muted);">Perform CRUD operations, modify celestial alignments, or configure wear rules</p>
+        </div>
+        <a href="/admin/gemstones/new" class="btn btn-gold" style="color: #1f2937;"><i class="fa-solid fa-plus"></i> Catalog Gemstone</a>
+      </div>
+
+      <div class="glass-panel" style="padding: 2rem; overflow: hidden;">
+        <!-- Search filter form -->
+        <form action="/admin/gemstones" method="GET" class="search-filter-bar">
+          <input type="text" name="q" class="form-control search-input" placeholder="Search by gemstone name, planet, or categories..." value="<%= search %>">
+          <button type="submit" class="btn btn-primary"><i class="fa-solid fa-search"></i> Search</button>
+          <% if (search) { %>
+            <a href="/admin/gemstones" class="btn btn-secondary" title="Clear Search"><i class="fa-solid fa-xmark"></i></a>
+          <% } %>
+        </form>
+
+        <% if (gemstones && gemstones.length > 0) { %>
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Gemstone</th>
+                  <th>Planet</th>
+                  <th>Compatible Zodiacs</th>
+                  <th>Problem Category Alignment</th>
+                  <th>Price Range</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% gemstones.forEach(gem => { %>
+                  <tr>
+                    <td>
+                      <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <img src="<%= gem.image %>" alt="<%= gem.name %>" style="width: 40px; height: 40px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-glass);">
+                        <span style="color: var(--text-white); font-weight: 500;"><%= gem.name %></span>
+                      </div>
+                    </td>
+                    <td style="color: var(--color-primary);"><%= gem.planet %></td>
+                    <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                      <%= (gem.zodiacSigns && Array.isArray(gem.zodiacSigns)) ? gem.zodiacSigns.join(', ') : '' %>
+                    </td>
+                    <td>
+                      <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+                        <% if (gem.problemCategories && Array.isArray(gem.problemCategories)) { %>
+                          <% gem.problemCategories.forEach(cat => { %>
+                            <span class="badge badge-primary" style="font-size: 0.75rem;"><%= cat %></span>
+                          <% }) %>
+                        <% } %>
+                      </div>
+                    </td>
+                    <td><span class="badge badge-gold"><%= gem.priceRange %></span></td>
+                    <td style="text-align: right;">
+                      <div style="display: inline-flex; gap: 0.5rem; justify-content: flex-end;">
+                        <!-- Edit button -->
+                        <a href="/admin/gemstones/<%= gem._id %>/edit" class="btn btn-secondary btn-small" title="Edit Gemstone specifications">
+                          <i class="fa-solid fa-pen-to-square"></i> Edit
+                        </a>
+                        
+                        <!-- Delete button -->
+                        <form action="/admin/gemstones/<%= gem._id %>?_method=DELETE" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to permanently delete this gemstone from catalog? This will clear it from user favorites as well.');">
+                          <button type="submit" class="btn btn-danger btn-small" title="Delete Gemstone">
+                            <i class="fa-solid fa-trash"></i> Delete
+                          </button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Controls -->
+          <% if (totalPages > 1) { %>
+            <div class="pagination">
+              <% if (currentPage > 1) { %>
+                <a href="/admin/gemstones?page=<%= currentPage - 1 %>&q=<%= search %>" class="page-link">&laquo;</a>
+              <% } %>
+              
+              <% for (let i = 1; i <= totalPages; i++) { %>
+                <a href="/admin/gemstones?page=<%= i %>&q=<%= search %>" class="page-link <%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+              <% } %>
+
+              <% if (currentPage < totalPages) { %>
+                <a href="/admin/gemstones?page=<%= currentPage + 1 %>&q=<%= search %>" class="page-link">&raquo;</a>
+              <% } %>
+            </div>
+          <% } %>
+
+        <% } else { %>
+          <div style="text-align: center; padding: 3rem 1rem;">
+            <i class="fa-solid fa-gem" style="font-size: 3rem; color: var(--text-muted); margin-bottom: 1.5rem;"></i>
+            <h4 style="font-size: 1.25rem; color: var(--text-white); margin-bottom: 0.5rem;">No Gemstones Found</h4>
+            <p style="color: var(--text-muted); max-width: 450px; margin: 0 auto 1.5rem auto; font-size: 0.95rem;">
+              No gemstones matched your search query. Add a new gemstone or adjust your search constraints.
+            </p>
+            <a href="/admin/gemstones/new" class="btn btn-gold" style="color: #1f2937;"><i class="fa-solid fa-plus"></i> Catalog Gemstone</a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

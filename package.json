@@ -1,0 +1,22 @@
+{
+  "name": "gemstone-recommendation-app",
+  "version": "1.0.0",
+  "description": "Full-Stack Gemstone Recommendation System using MVC architecture",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node seeds/seed.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.4.1"
+  },
+  "author": "",
+  "license": "ISC"
+}
