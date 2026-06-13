@@ -6,6 +6,16 @@ The goal of this project is to provide personalized gemstone recommendations whi
 
 ---
 
+Live Demo
+
+Application URL:
+https://gemstoneadvisor.onrender.com
+
+GitHub Repository:
+https://github.com/HARSH15960/GemStoneAdvisor
+
+---
+
 # Features
 
 ## User Features
