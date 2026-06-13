@@ -119,7 +119,7 @@ The project follows the MVC (Model View Controller) architecture for better code
 ## 1. Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone  https://github.com/HARSH15960/GemStoneAdvisor
 ```
 
 ## 2. Install Dependencies
